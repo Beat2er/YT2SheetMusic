@@ -281,8 +281,10 @@ Public Class Form1
             Dim width = img.Width
             Dim height = img.Height
 
-            Dim m1 As New MagickGeometry(CInt(CropLeft.Value / 100 * width), CInt(CropTop.Value / 100 * height), CInt(CropRight.Value / 100 * width), CInt(CropBottom.Value / 100 * height))
+            Dim m1 As New MagickGeometry(CInt(CropLeft.Value / 100 * width), CInt(CropTop.Value / 100 * height), 0, 0)
             img.Crop(m1)
+            Dim m2 As New MagickGeometry(-CInt(CropRight.Value / 100 * width), -CInt(CropBottom.Value / 100 * height), 0, 0)
+            img.Crop(m2)
 
             img.Write(fi.FullName)
         Next
@@ -444,4 +446,5 @@ Public Class Form1
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
 
     End Sub
+
 End Class
