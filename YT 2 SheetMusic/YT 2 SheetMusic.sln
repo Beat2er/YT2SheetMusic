@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YT 2 SheetMusic", "YT 2 SheetMusic\YT 2 SheetMusic.vbproj", "{DF950095-F7E9-416B-87AD-B048D8F98900}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Opener", "Opener\Opener.vbproj", "{334EA7E3-8D17-4AFD-8976-73B7EA49D70D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF950095-F7E9-416B-87AD-B048D8F98900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF950095-F7E9-416B-87AD-B048D8F98900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF950095-F7E9-416B-87AD-B048D8F98900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF950095-F7E9-416B-87AD-B048D8F98900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{334EA7E3-8D17-4AFD-8976-73B7EA49D70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{334EA7E3-8D17-4AFD-8976-73B7EA49D70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{334EA7E3-8D17-4AFD-8976-73B7EA49D70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{334EA7E3-8D17-4AFD-8976-73B7EA49D70D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1DBF9282-7DDF-4924-BE76-3011A8176742}
+	EndGlobalSection
+EndGlobal
