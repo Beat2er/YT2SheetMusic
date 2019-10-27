@@ -99,15 +99,5 @@ Namespace My.Resources
                 Return CType(obj,Byte())
             End Get
         End Property
-        
-        '''<summary>
-        '''  Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        '''</summary>
-        Friend ReadOnly Property YT_2_SheetMusic() As Byte()
-            Get
-                Dim obj As Object = ResourceManager.GetObject("YT_2_SheetMusic", resourceCulture)
-                Return CType(obj,Byte())
-            End Get
-        End Property
     End Module
 End Namespace
