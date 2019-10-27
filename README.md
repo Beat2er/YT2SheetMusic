@@ -3,7 +3,7 @@ Convert a (youtube) video to a pdf
 
 Just sharing a little tool to automatically download YT Videos and convert them to a PDF.
 
-![sample image](https://github.com/Beat2er/YT2SheetMusic/sample.png)
+![sample image](https://raw.githubusercontent.com/Beat2er/YT2SheetMusic/master/sample.png)
 
 ## Built With
 
