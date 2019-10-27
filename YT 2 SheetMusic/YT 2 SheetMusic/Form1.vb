@@ -3,12 +3,22 @@ Imports VideoLibrary
 Imports ImageMagick
 Imports System.Collections
 Imports System.Xml
+Imports System.Drawing.Imaging
 Imports System.Threading
-Imports IronPdf
 Imports System.Globalization
+Imports Org.pdfclown
+Imports System.Text
+Imports System.ComponentModel
 
 Public Class Form1
+    Dim livingThread As Thread
     Dim wait = True
+    Sub keepingAlive()
+        Do
+            Thread.Sleep(100)
+            Application.DoEvents()
+        Loop
+    End Sub
     Sub log(ByVal log As String)
         LogBox.Text += log & Environment.NewLine
         LogBox.SelectionStart = LogBox.Text.Length
@@ -32,8 +42,7 @@ Public Class Form1
         OpenOutput.Enabled = enable
         FileOpenDialogButton.Enabled = enable
     End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles StartButton.Click
+    Sub task()
         toggleinput(False)
 
         log("Starting...")
@@ -41,6 +50,7 @@ Public Class Form1
         Dim tmpPath = My.Application.Info.DirectoryPath & "\tmp\"
         Dim picsPath = My.Application.Info.DirectoryPath & "\tmp\pics\"
         Dim pics2Path = My.Application.Info.DirectoryPath & "\tmp\pics2\"
+        Dim pics3Path = My.Application.Info.DirectoryPath & "\tmp\pics3\"
         Dim videoPath = tmpPath & "video.mp4"
 
         If My.Computer.FileSystem.DirectoryExists(tmpPath) Then
@@ -78,12 +88,21 @@ Public Class Form1
         log("Creating pics2 Folder...")
         FileSystem.MkDir(pics2Path)
         images_format(picsPath, pics2Path)
-        images_to_pdf(pics2Path, tmpPath & "finished.pdf")
+        log("Creating pics3 Folder...")
+        FileSystem.MkDir(pics3Path)
+        convert_pics(pics2Path, pics3Path)
+        images_to_pdf(pics3Path, tmpPath & "finished.pdf")
         If OpenOutput.Checked Then
             Process.Start(tmpPath & "finished.pdf")
         End If
         log("Finished...")
         toggleinput(True)
+    End Sub
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles StartButton.Click
+        task()
+        Exit Sub
+        Dim t As New Thread(AddressOf task)
+        t.Start()
     End Sub
     Sub SaveVideoToDisk(ByVal link As String, ByVal output As String)
         log("Getting Video Data...")
@@ -145,6 +164,39 @@ Public Class Form1
         log("Process finished...")
     End Sub
 
+    Sub convert_pics(ByVal inputfolder As String, ByVal outputfolder As String)
+        log("Converting pictures...")
+        Dim di As New IO.DirectoryInfo(inputfolder)
+        Dim aryFi As IO.FileInfo() = di.GetFiles("*")
+        Dim fi As IO.FileInfo
+        Dim toDelete As List(Of String) = New List(Of String)
+        Dim last As IO.FileInfo
+        Dim encoderParameters = New EncoderParameters(1)
+        Dim encoder As System.Drawing.Imaging.Encoder = System.Drawing.Imaging.Encoder.Quality
+        Dim encoderParameter = New EncoderParameter(encoder, 100L)
+
+        encoderParameters.Param(0) = encoderParameter
+        For Each fi In aryFi
+            Dim SourceImg As Image
+            SourceImg = Image.FromFile(fi.FullName)
+
+            SourceImg.Save(outputfolder & fi.Name.Substring(0, fi.Name.Length - 3) & "jpg", GetEncoder(ImageFormat.Jpeg), encoderParameters)
+        Next
+        log("Converting pictures finished...")
+    End Sub
+
+    Function GetEncoder(format As ImageFormat) As ImageCodecInfo
+        Dim codecs = ImageCodecInfo.GetImageEncoders()
+
+        For Each codec In codecs
+            If codec.FormatID = format.Guid Then
+                Return codec
+            End If
+        Next
+
+
+        Return Nothing
+    End Function
 
     Delegate Sub UpdateTextBoxDelg(text As String)
     Public myDelegate As UpdateTextBoxDelg = New UpdateTextBoxDelg(AddressOf UpdateTextBox)
@@ -249,23 +301,62 @@ Public Class Form1
         log("Resizing finished")
     End Sub
 
+    '    Sub images_to_pdf(ByVal folder As String, ByVal output As String)
+    '        log("Creating PDF")
+    '
+    '
+    '
+    '        Dim di As New IO.DirectoryInfo(folder)
+    '        Dim aryFi As IO.FileInfo() = di.GetFiles("*")
+    '        Dim fi As IO.FileInfo
+    '        Dim images As List(Of String) = New List(Of String)
+    '
+    '        For Each fi In aryFi
+    '            log("File: " & fi.FullName)
+    '            images.Add(fi.FullName)
+    '        Next
+    '        ImageToPdfConverter.ImageToPdf(images).SaveAs(output)
+    '        log("Creating PDF finished")
+    '    End Sub
+
+
+
+
     Sub images_to_pdf(ByVal folder As String, ByVal output As String)
         log("Creating PDF")
+        Dim jpeg2pdf = My.Application.Info.DirectoryPath & "\Resources\jpeg2pdf.exe"
+        If Not My.Computer.FileSystem.FileExists(jpeg2pdf) Then
+            If Not My.Computer.FileSystem.DirectoryExists(My.Application.Info.DirectoryPath & "\Resources") Then
+                My.Computer.FileSystem.CreateDirectory(My.Application.Info.DirectoryPath & "\Resources")
+            End If
+            My.Computer.FileSystem.WriteAllBytes(jpeg2pdf, My.Resources.jpeg2pdf, False)
+        End If
+        Dim params = "-o """ & output & """ -z fw -r height *.jpg"
+        Dim jpeg2pdfProcess As New Process
+        jpeg2pdfProcess.StartInfo.FileName = jpeg2pdf
+        jpeg2pdfProcess.StartInfo.Arguments = params
+        jpeg2pdfProcess.StartInfo.UseShellExecute = False
+        jpeg2pdfProcess.StartInfo.RedirectStandardOutput = True
+        jpeg2pdfProcess.StartInfo.RedirectStandardError = True
+        jpeg2pdfProcess.StartInfo.CreateNoWindow = True
+        jpeg2pdfProcess.EnableRaisingEvents = True
+        jpeg2pdfProcess.StartInfo.WorkingDirectory = folder
+        AddHandler jpeg2pdfProcess.ErrorDataReceived, AddressOf proc_OutputDataReceived
+        AddHandler jpeg2pdfProcess.OutputDataReceived, AddressOf proc_OutputDataReceived
+        log("Starting Process...")
+        jpeg2pdfProcess.Start()
+        jpeg2pdfProcess.BeginErrorReadLine()
+        jpeg2pdfProcess.BeginOutputReadLine()
 
+        While jpeg2pdfProcess.HasExited = False
 
-
-        Dim di As New IO.DirectoryInfo(folder)
-        Dim aryFi As IO.FileInfo() = di.GetFiles("*")
-        Dim fi As IO.FileInfo
-        Dim images As List(Of String) = New List(Of String)
-
-        For Each fi In aryFi
-            log("File: " & fi.FullName)
-            images.Add(fi.FullName)
-        Next
-        ImageToPdfConverter.ImageToPdf(images).SaveAs(output)
+            Application.DoEvents()
+        End While
+        log("Process finished...")
         log("Creating PDF finished")
     End Sub
+
+
 
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
@@ -295,13 +386,13 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        CheckForIllegalCrossThreadCalls = False
         ComboBox1.SelectedIndex = 0
         Label10_Click(sender, e)
+        livingThread = New Thread(AddressOf keepingAlive)
+        livingThread.Start()
     End Sub
 
-    Private Sub CheckStopForSelecting_CheckedChanged(sender As Object, e As EventArgs) Handles CheckStopForSelecting.CheckedChanged
-
-    End Sub
 
     Private Sub GoOnButton_Click(sender As Object, e As EventArgs) Handles GoOnButton.Click
         wait = False
@@ -359,5 +450,9 @@ Public Class Form1
 
     Private Sub ComparisonSensitivity_Scroll(sender As Object, e As EventArgs) Handles ComparisonSensitivity.Scroll
         Label29.Text = ComparisonSensitivity.Value
+    End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        livingThread.Suspend()
     End Sub
 End Class

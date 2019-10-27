@@ -130,4 +130,7 @@
   <data name="Magick_NET_Q8_AnyCPU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Magick.NET-Q8-AnyCPU.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="YT_2_SheetMusic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\YT 2 SheetMusic.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
