@@ -92,8 +92,6 @@ Public Class Form1
         toggleinput(True)
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles StartButton.Click
-        task()
-        Exit Sub
         Dim t As New Thread(AddressOf task)
         t.Start()
     End Sub
