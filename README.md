@@ -12,9 +12,9 @@ Just sharing a little tool to automatically download YT Videos and convert them 
 * [Magick .Net](https://github.com/dlemstra/Magick.NET)
 * [LibVideo](https://github.com/i3arnon/libvideo)
 
-## License
+## Compiled Version
 
-[Download Compiled](https://raw.github.com/Beat2er/YT2SheetMusic/blob/master/compiled/Opener.zip)
+[Download Compiled](https://github.com/Beat2er/YT2SheetMusic/blob/master/compiled/Opener.zip?raw=true)
 
 ## License
 
