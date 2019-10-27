@@ -11,14 +11,7 @@ Imports System.Text
 Imports System.ComponentModel
 
 Public Class Form1
-    Dim livingThread As Thread
     Dim wait = True
-    Sub keepingAlive()
-        Do
-            Thread.Sleep(100)
-            Application.DoEvents()
-        Loop
-    End Sub
     Sub log(ByVal log As String)
         LogBox.Text += log & Environment.NewLine
         LogBox.SelectionStart = LogBox.Text.Length
@@ -389,8 +382,6 @@ Public Class Form1
         CheckForIllegalCrossThreadCalls = False
         ComboBox1.SelectedIndex = 0
         Label10_Click(sender, e)
-        livingThread = New Thread(AddressOf keepingAlive)
-        livingThread.Start()
     End Sub
 
 
@@ -453,6 +444,6 @@ Public Class Form1
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        livingThread.Suspend()
+
     End Sub
 End Class
