@@ -13,7 +13,7 @@ Imports System.ComponentModel
 Public Class Form1
     Dim wait = True
     Sub log(ByVal log As String)
-        LogBox.Text += log & Environment.NewLine
+        LogBox.Text += log & vbCrLf
         LogBox.SelectionStart = LogBox.Text.Length
         LogBox.ScrollToCaret()
     End Sub

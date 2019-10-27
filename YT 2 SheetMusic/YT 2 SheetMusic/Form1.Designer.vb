@@ -121,7 +121,7 @@ Partial Class Form1
         'CropLeft
         '
         Me.CropLeft.Location = New System.Drawing.Point(121, 3)
-        Me.CropLeft.Maximum = 50
+        Me.CropLeft.Maximum = 100
         Me.CropLeft.Name = "CropLeft"
         Me.CropLeft.Size = New System.Drawing.Size(75, 45)
         Me.CropLeft.TabIndex = 3
@@ -129,7 +129,7 @@ Partial Class Form1
         'CropTop
         '
         Me.CropTop.Location = New System.Drawing.Point(287, 3)
-        Me.CropTop.Maximum = 50
+        Me.CropTop.Maximum = 100
         Me.CropTop.Name = "CropTop"
         Me.CropTop.Size = New System.Drawing.Size(75, 45)
         Me.CropTop.TabIndex = 4
@@ -185,7 +185,7 @@ Partial Class Form1
         'CropRight
         '
         Me.CropRight.Location = New System.Drawing.Point(121, 51)
-        Me.CropRight.Maximum = 50
+        Me.CropRight.Maximum = 100
         Me.CropRight.Name = "CropRight"
         Me.CropRight.Size = New System.Drawing.Size(75, 45)
         Me.CropRight.TabIndex = 10
@@ -193,7 +193,7 @@ Partial Class Form1
         'CropBottom
         '
         Me.CropBottom.Location = New System.Drawing.Point(287, 51)
-        Me.CropBottom.Maximum = 50
+        Me.CropBottom.Maximum = 100
         Me.CropBottom.Name = "CropBottom"
         Me.CropBottom.Size = New System.Drawing.Size(75, 45)
         Me.CropBottom.TabIndex = 11
